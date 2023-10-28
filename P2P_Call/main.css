@@ -1,11 +1,11 @@
 #vidoes{
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 3em;
+    gap: 2em;
 }
 
 .video-player{
     background-color: black;
-    width: 50%;
+    width: 100%;
     height: 350px;
 }
