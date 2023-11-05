@@ -16,8 +16,10 @@ let init = async () => {
         audio:false
     })
     document.getElementById('user-1').srcObject = localStream
+    // Async function that will be called when openend to request permissions
 
     createOffer()
+    // Creates an offer that
 }
 
 let createOffer = async () => {
@@ -32,7 +34,7 @@ let createOffer = async () => {
 
     peerConnection.onTrack = (event) => {
         event.streams[0].getTracks().forEach((tracks) => {
-            remoteStream.addTrack()
+            remoteStream.addTrack(track)
         })
     }
 

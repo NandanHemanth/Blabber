@@ -1,0 +1,335 @@
+# NLLB - No Language Left Behind - 200's distilled 600M
+
+> - NLLB-200 is a research model and is not released for production deployment.
+> - NLLB-200 is trained on general domain text data and is not intended to be used with domain specific texts, such as medical domain or legal domain.
+> - The model is not intended to be used for document translation.
+> - The model was trained with input lengths not exceeding 512 tokens, therefore translating longer sequences might result in quality degradation.
+> - NLLB-200 translations can not be used as certified translations.
+
+## Languages in FLORES-200
+
+Language | FLORES-200 code
+---|---
+Acehnese (Arabic script) | ace_Arab
+Acehnese (Latin script) | ace_Latn
+Mesopotamian Arabic | acm_Arab
+Ta’izzi-Adeni Arabic | acq_Arab
+Tunisian Arabic | aeb_Arab
+Afrikaans | afr_Latn
+South Levantine Arabic | ajp_Arab
+Akan | aka_Latn
+Amharic | amh_Ethi
+North Levantine Arabic | apc_Arab
+Modern Standard Arabic | arb_Arab
+Modern Standard Arabic (Romanized) | arb_Latn
+Najdi Arabic | ars_Arab
+Moroccan Arabic | ary_Arab
+Egyptian Arabic | arz_Arab
+Assamese | asm_Beng
+Asturian | ast_Latn
+Awadhi | awa_Deva
+Central Aymara | ayr_Latn
+South Azerbaijani | azb_Arab
+North Azerbaijani | azj_Latn
+Bashkir | bak_Cyrl
+Bambara | bam_Latn
+Balinese | ban_Latn
+Belarusian | bel_Cyrl
+Bemba | bem_Latn
+Bengali | ben_Beng
+Bhojpuri | bho_Deva
+Banjar (Arabic script) | bjn_Arab
+Banjar (Latin script) | bjn_Latn
+Standard Tibetan | bod_Tibt
+Bosnian | bos_Latn
+Buginese | bug_Latn
+Bulgarian | bul_Cyrl
+Catalan | cat_Latn
+Cebuano | ceb_Latn
+Czech | ces_Latn
+Chokwe | cjk_Latn
+Central Kurdish | ckb_Arab
+Crimean Tatar | crh_Latn
+Welsh | cym_Latn
+Danish | dan_Latn
+German | deu_Latn
+Southwestern Dinka | dik_Latn
+Dyula | dyu_Latn
+Dzongkha | dzo_Tibt
+Greek | ell_Grek
+English | eng_Latn
+Esperanto | epo_Latn
+Estonian | est_Latn
+Basque | eus_Latn
+Ewe | ewe_Latn
+Faroese | fao_Latn
+Fijian | fij_Latn
+Finnish | fin_Latn
+Fon | fon_Latn
+French | fra_Latn
+Friulian | fur_Latn
+Nigerian Fulfulde | fuv_Latn
+Scottish Gaelic | gla_Latn
+Irish | gle_Latn
+Galician | glg_Latn
+Guarani | grn_Latn
+Gujarati | guj_Gujr
+Haitian Creole | hat_Latn
+Hausa | hau_Latn
+Hebrew | heb_Hebr
+Hindi | hin_Deva
+Chhattisgarhi | hne_Deva
+Croatian | hrv_Latn
+Hungarian | hun_Latn
+Armenian | hye_Armn
+Igbo | ibo_Latn
+Ilocano | ilo_Latn
+Indonesian | ind_Latn
+Icelandic | isl_Latn
+Italian | ita_Latn
+Javanese | jav_Latn
+Japanese | jpn_Jpan
+Kabyle | kab_Latn
+Jingpho | kac_Latn
+Kamba | kam_Latn
+Kannada | kan_Knda
+Kashmiri (Arabic script) | kas_Arab
+Kashmiri (Devanagari script) | kas_Deva
+Georgian | kat_Geor
+Central Kanuri (Arabic script) | knc_Arab
+Central Kanuri (Latin script) | knc_Latn
+Kazakh | kaz_Cyrl
+Kabiyè | kbp_Latn
+Kabuverdianu | kea_Latn
+Khmer | khm_Khmr
+Kikuyu | kik_Latn
+Kinyarwanda | kin_Latn
+Kyrgyz | kir_Cyrl
+Kimbundu | kmb_Latn
+Northern Kurdish | kmr_Latn
+Kikongo | kon_Latn
+Korean | kor_Hang
+Lao | lao_Laoo
+Ligurian | lij_Latn
+Limburgish | lim_Latn
+Lingala | lin_Latn
+Lithuanian | lit_Latn
+Lombard | lmo_Latn
+Latgalian | ltg_Latn
+Luxembourgish | ltz_Latn
+Luba-Kasai | lua_Latn
+Ganda | lug_Latn
+Luo | luo_Latn
+Mizo | lus_Latn
+Standard Latvian | lvs_Latn
+Magahi | mag_Deva
+Maithili | mai_Deva
+Malayalam | mal_Mlym
+Marathi | mar_Deva
+Minangkabau (Arabic script) | min_Arab
+Minangkabau (Latin script) | min_Latn
+Macedonian | mkd_Cyrl
+Plateau Malagasy | plt_Latn
+Maltese | mlt_Latn
+Meitei (Bengali script) | mni_Beng
+Halh Mongolian | khk_Cyrl
+Mossi | mos_Latn
+Maori | mri_Latn
+Burmese | mya_Mymr
+Dutch | nld_Latn
+Norwegian Nynorsk | nno_Latn
+Norwegian Bokmål | nob_Latn
+Nepali | npi_Deva
+Northern Sotho | nso_Latn
+Nuer | nus_Latn
+Nyanja | nya_Latn
+Occitan | oci_Latn
+West Central Oromo | gaz_Latn
+Odia | ory_Orya
+Pangasinan | pag_Latn
+Eastern Panjabi | pan_Guru
+Papiamento | pap_Latn
+Western Persian | pes_Arab
+Polish | pol_Latn
+Portuguese | por_Latn
+Dari | prs_Arab
+Southern Pashto | pbt_Arab
+Ayacucho Quechua | quy_Latn
+Romanian | ron_Latn
+Rundi | run_Latn
+Russian | rus_Cyrl
+Sango | sag_Latn
+Sanskrit | san_Deva
+Santali | sat_Olck
+Sicilian | scn_Latn
+Shan | shn_Mymr
+Sinhala | sin_Sinh
+Slovak | slk_Latn
+Slovenian | slv_Latn
+Samoan | smo_Latn
+Shona | sna_Latn
+Sindhi | snd_Arab
+Somali | som_Latn
+Southern Sotho | sot_Latn
+Spanish | spa_Latn
+Tosk Albanian | als_Latn
+Sardinian | srd_Latn
+Serbian | srp_Cyrl
+Swati | ssw_Latn
+Sundanese | sun_Latn
+Swedish | swe_Latn
+Swahili | swh_Latn
+Silesian | szl_Latn
+Tamil | tam_Taml
+Tatar | tat_Cyrl
+Telugu | tel_Telu
+Tajik | tgk_Cyrl
+Tagalog | tgl_Latn
+Thai | tha_Thai
+Tigrinya | tir_Ethi
+Tamasheq (Latin script) | taq_Latn
+Tamasheq (Tifinagh script) | taq_Tfng
+Tok Pisin | tpi_Latn
+Tswana | tsn_Latn
+Tsonga | tso_Latn
+Turkmen | tuk_Latn
+Tumbuka | tum_Latn
+Turkish | tur_Latn
+Twi | twi_Latn
+Central Atlas Tamazight | tzm_Tfng
+Uyghur | uig_Arab
+Ukrainian | ukr_Cyrl
+Umbundu | umb_Latn
+Urdu | urd_Arab
+Northern Uzbek | uzn_Latn
+Venetian | vec_Latn
+Vietnamese | vie_Latn
+Waray | war_Latn
+Wolof | wol_Latn
+Xhosa | xho_Latn
+Eastern Yiddish | ydd_Hebr
+Yoruba | yor_Latn
+Yue Chinese | yue_Hant
+Chinese (Simplified) | zho_Hans
+Chinese (Traditional) | zho_Hant
+Standard Malay | zsm_Latn
+Zulu | zul_Latn
+
+## Updates to Previous Languages
+Based on feedback and further Q/A, we've improved the quality of several languages:
+
+* Quechua (quy_Latn)
+* Aymara (ayr_Latn)
+* Cebuano (ceb_Latn)
+* Kimbundu (kmb_Latn)
+* Umbundu (umb_Latn)
+
+As a result, the results between FLORES-101 and FLORES-200 for these languages will differ slightly.
+
+### Map between FLORES-101 Language Codes and FLORES-200 Language Codes
+
+FLORES-200 code | FLORES-101 code
+---|---
+afr_Latn | afr
+amh_Ethi | amh
+arb_Arab | ara
+asm_Beng | asm
+ast_Latn | ast
+azj_Latn | azj
+bel_Cyrl | bel
+ben_Beng | ben
+bos_Latn | bos
+bul_Cyrl | bul
+cat_Latn | cat
+ceb_Latn | ceb
+ces_Latn | ces
+ckb_Arab | ckb
+cym_Latn | cym
+dan_Latn | dan
+deu_Latn | deu
+ell_Grek | ell
+eng_Latn | eng
+est_Latn | est
+fin_Latn | fin
+fra_Latn | fra
+fuv_Latn | ful
+gle_Latn | gle
+glg_Latn | glg
+guj_Gujr | guj
+hau_Latn | hau
+heb_Hebr | heb
+hin_Deva | hin
+hrv_Latn | hrv
+hun_Latn | hun
+hye_Armn | hye
+ibo_Latn | ibo
+ind_Latn | ind
+isl_Latn | isl
+ita_Latn | ita
+jav_Latn | jav
+jpn_Jpan | jpn
+kam_Latn | kam
+kan_Knda | kan
+kat_Geor | kat
+kaz_Cyrl | kaz
+khm_Khmr | khm
+kir_Cyrl | kir
+kor_Hang | kor
+lao_Laoo | lao
+lij_Latn | Latvian
+lim_Latn | kea
+lin_Latn | lin
+lit_Latn | lit
+ltz_Latn | ltz
+lug_Latn | lug
+luo_Latn | luo
+lvs_Latn | lav
+mal_Mlym | mal
+mar_Deva | mar
+mkd_Cyrl | mkd
+mlt_Latn | mlt
+khk_Cyrl | mon
+mri_Latn | mri
+mya_Mymr | mya
+nld_Latn | nld
+nob_Latn | nob
+npi_Deva | npi
+nso_Latn | nso
+nya_Latn | nya
+oci_Latn | oci
+gaz_Latn | orm
+ory_Orya | ory
+pan_Guru | pan
+pes_Arab | fas
+pol_Latn | pol
+por_Latn | por
+pbt_Arab | pus
+ron_Latn | ron
+rus_Cyrl | rus
+slk_Latn | slk
+sna_Latn | sna
+snd_Arab | snd
+som_Latn | som
+spa_Latn | spa
+srp_Cyrl | srp
+swe_Latn | swe
+swh_Latn | swh
+tam_Taml | tam
+tel_Telu | tel
+tgk_Cyrl | tgk
+tgl_Latn | tgl
+tha_Thai | tha
+tur_Latn | tur
+ukr_Cyrl | ukr
+umb_Latn | umb
+urd_Arab | urd
+uzn_Latn | uzb
+vie_Latn | vie
+wol_Latn | wol
+xho_Latn | xho
+yor_Latn | yor
+zho_Hans | zho_simpl
+zho_Hant | zho_trad
+zsm_Latn | msa
+zul_Latn | zul
+
