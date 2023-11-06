@@ -5,5 +5,5 @@ conda install pytorch==1.10.1 torchvision==0.11.2 torchaudio==0.10.1 cudatoolkit
 pip install -r requirements.txt
 pip install -U openai-whisper
 pip install transformers 
-
+pip install gradio
 
