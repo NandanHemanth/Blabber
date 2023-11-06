@@ -7,7 +7,7 @@ model = AutoModelForSeq2SeqLM.from_pretrained("facebook/nllb-200-distilled-600M"
 tokenizer = AutoTokenizer.from_pretrained("facebook/nllb-200-distilled-600M")
 
 # Creating the pipeline and translating from source to target language
-translator = pipeline('translation', model=model, tokenizer=tokenizer, src_lang="tam_Taml", tgt_lang='eng_Latn', max_length = 400)
+translator = pipeline('translation', model=model, tokenizer=tokenizer, src_lang="eng_Latn", tgt_lang='hin_Deva')
 
-print(translator("திஸ் ஐஸ் எ வெரி குட் மாடல் "))
+print(translator("Once upon a time, in a land far far away, there lived a king with a favourite number 11. He loved Artificial-Intelligence"))
 

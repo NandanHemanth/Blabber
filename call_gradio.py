@@ -1,47 +1,34 @@
-import whisper 
-import gradio as gr 
-import time
+# Importing the Libraries
+import gradio as gr
+import numpy as np
 import torch
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, pipeline
 
-# Loading the model
+# Loading the models
 nllb_model = AutoModelForSeq2SeqLM.from_pretrained("facebook/nllb-200-distilled-600M")
 tokenizer = AutoTokenizer.from_pretrained("facebook/nllb-200-distilled-600M")
-whisper_model = whisper.load_model("base")
 
-# Transctiption Function
-def transcribe_translate(audio):
+# Creating the pipeline for the models
+transcriber = pipeline("automatic-speech-recognition", model="openai/whisper-base.en")
+translator = pipeline('translation', model=nllb_model, tokenizer=tokenizer, src_lang="eng_Latn", tgt_lang='hin_Deva')
 
-    #time.sleep(3)
-    # Load the audio to the mdoel
-    audio = whisper.load_audio(audio)
+def blabber(stream, new_chunk):
+    sr, y = new_chunk
+    y = y.astype(np.float32)
+    y /= np.max(np.abs(y))
 
-    # make log-mel spectrogram and move to the same device as the model
-    mel = whisper.log_mel_spectrogram(audio).to(whisper_model.device)
-
-    # detect the spoken language
-    _, probs = whisper_model.detect_language(mel)
-    detected_language = max(probs, key=probs.get)
-    print(f"Detected language: {detected_language}")
-
-    # decode the audio
-    options = whisper.DecodingOptions()
-    result = whisper.decode(whisper_model, mel, options)
-
-    # Creating the pipeline and translating from source to target language
-    translator = pipeline('translation', model=nllb_model, tokenizer=tokenizer, src_lang="eng_Latn", tgt_lang='hin_Deva')
-
-    return translator(result.text)
-
-# Calling the transcribe function with Gradio Interface
-gr.Interface(
-    title='Real-time AI-based Audio Transcription, Recognition and Translation Web App',
-    fn=transcribe_translate,
-    inputs=[
-        gr.inputs.Audio(source="microphone", type="file")
-    ],
-    outputs="text",
-    live=True
-).launch()
+    if stream is not None:
+        stream = np.concatenate([stream, y])
+    else:
+        stream = y
+    return stream, translator(transcriber({"sampling_rate": sr, "raw": stream})["text"])
 
 
+demo = gr.Interface(
+    blabber,
+    ["state", gr.Audio(sources=["microphone"], streaming=True)],
+    ["state", "text"],
+    live=True,
+)
+
+demo.launch(share=True)
