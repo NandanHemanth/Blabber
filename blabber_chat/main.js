@@ -1,5 +1,5 @@
+// Constant Agora APP ID for Real time Communication establishment
 let APP_ID = "9f4c455e3a0f4c5d83a3024f192b4289"
-
 
 let token = null;
 let uid = String(Math.floor(Math.random() * 10000))

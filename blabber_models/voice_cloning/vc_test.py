@@ -8,9 +8,9 @@ import torch
 
 from encoder import inference as encoder
 from synthesizer.inference import Synthesizer
-from toolbox.ui import UI
 from toolbox.utterance import Utterance
 from vocoder import inference as vocoder
+
 
 # Maximum of generated wavs to keep on memory
 MAX_WAVS = 15
@@ -18,8 +18,6 @@ MAX_WAVS = 15
 
 class Toolbox:
     def __init__(self, datasets_root: Path, models_dir: Path, seed: int=None):
-        sys.excepthook = self.excepthook
-        self.datasets_root = datasets_root
         self.utterances = set()
         self.current_generated = (None, None, None, None) # speaker_name, spec, breaks, wav
 
@@ -36,103 +34,17 @@ class Toolbox:
         except:
             self.trim_silences = False
 
-        # Initialize the events and the interface
-        self.ui = UI()
-        self.reset_ui(models_dir, seed)
-        self.setup_events()
-        self.ui.start()
 
     def excepthook(self, exc_type, exc_value, exc_tb):
         traceback.print_exception(exc_type, exc_value, exc_tb)
         self.ui.log("Exception: %s" % exc_value)
 
-    def setup_events(self):
-        # Dataset, speaker and utterance selection
-        self.ui.browser_load_button.clicked.connect(lambda: self.load_from_browser())
-        random_func = lambda level: lambda: self.ui.populate_browser(self.datasets_root,
-                                                                     recognized_datasets,
-                                                                     level)
-        self.ui.random_dataset_button.clicked.connect(random_func(0))
-        self.ui.random_speaker_button.clicked.connect(random_func(1))
-        self.ui.random_utterance_button.clicked.connect(random_func(2))
-        self.ui.dataset_box.currentIndexChanged.connect(random_func(1))
-        self.ui.speaker_box.currentIndexChanged.connect(random_func(2))
-
-        # Model selection
-        self.ui.encoder_box.currentIndexChanged.connect(self.init_encoder)
-        def func():
-            self.synthesizer = None
-        self.ui.synthesizer_box.currentIndexChanged.connect(func)
-        self.ui.vocoder_box.currentIndexChanged.connect(self.init_vocoder)
-
-        # Utterance selection
-        func = lambda: self.load_from_browser(self.ui.browse_file())
-        self.ui.browser_browse_button.clicked.connect(func)
-        func = lambda: self.ui.draw_utterance(self.ui.selected_utterance, "current")
-        self.ui.utterance_history.currentIndexChanged.connect(func)
-        func = lambda: self.ui.play(self.ui.selected_utterance.wav, Synthesizer.sample_rate)
-        self.ui.play_button.clicked.connect(func)
-        self.ui.stop_button.clicked.connect(self.ui.stop)
-        self.ui.record_button.clicked.connect(self.record)
-
-        #Audio
-        self.ui.setup_audio_devices(Synthesizer.sample_rate)
-
-        #Wav playback & save
-        func = lambda: self.replay_last_wav()
-        self.ui.replay_wav_button.clicked.connect(func)
-        func = lambda: self.export_current_wave()
-        self.ui.export_wav_button.clicked.connect(func)
-        self.ui.waves_cb.currentIndexChanged.connect(self.set_current_wav)
-
-        # Generation
-        func = lambda: self.synthesize() or self.vocode()
-        self.ui.generate_button.clicked.connect(func)
-        self.ui.synthesize_button.clicked.connect(self.synthesize)
-        self.ui.vocode_button.clicked.connect(self.vocode)
-        self.ui.random_seed_checkbox.clicked.connect(self.update_seed_textbox)
-
-        # UMAP legend
-        self.ui.clear_button.clicked.connect(self.clear_utterances)
 
     def set_current_wav(self, index):
         self.current_wav = self.waves_list[index]
 
     def export_current_wave(self):
         self.ui.save_audio_file(self.current_wav, Synthesizer.sample_rate)
-
-    def replay_last_wav(self):
-        self.ui.play(self.current_wav, Synthesizer.sample_rate)
-
-    def reset_ui(self, models_dir: Path, seed: int=None):
-        self.ui.populate_browser(self.datasets_root, recognized_datasets, 0, True)
-        self.ui.populate_models(models_dir)
-        self.ui.populate_gen_options(seed, self.trim_silences)
-
-    def load_from_browser(self, fpath=None):
-        if fpath is None:
-            fpath = Path(self.datasets_root,
-                         self.ui.current_dataset_name,
-                         self.ui.current_speaker_name,
-                         self.ui.current_utterance_name)
-            name = str(fpath.relative_to(self.datasets_root))
-            speaker_name = self.ui.current_dataset_name + '_' + self.ui.current_speaker_name
-
-            # Select the next utterance
-            if self.ui.auto_next_checkbox.isChecked():
-                self.ui.browser_select_next()
-        elif fpath == "":
-            return
-        else:
-            name = fpath.name
-            speaker_name = fpath.parent.name
-
-        # Get the wav from the disk. We take the wav with the vocoder/synthesizer format for
-        # playback, so as to have a fair comparison with the generated audio
-        wav = Synthesizer.load_preprocess_wav(fpath)
-        self.ui.log("Loaded %s" % name)
-
-        self.add_real_utterance(wav, name, speaker_name)
 
     def record(self):
         wav = self.ui.record_one(encoder.sampling_rate, 5)
