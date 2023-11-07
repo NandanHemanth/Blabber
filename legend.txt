@@ -7,5 +7,5 @@ pip install -U openai-whisper
 pip install transformers 
 pip install gradio
 pip install torch
-pip install django
+
 
